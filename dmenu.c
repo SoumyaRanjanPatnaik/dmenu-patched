@@ -73,15 +73,17 @@ static size_t histsz, histpos;
 static int (*fstrncmp)(const char *, const char *, size_t) = strncmp;
 static char *(*fstrstr)(const char *, const char *) = strstr;
 
-static char**
-tokenize(char *source, const char *delim, int *llen) {
+static char **
+tokenize(char *source, const char *delim, int *llen)
+{
 	int listlength = 0;
-	char **list = malloc(1 * sizeof(char*));
+	char **list = malloc(1 * sizeof(char *));
 	char *token = strtok(source, delim);
 
-	while (token) {
-		if (!(list = realloc(list, sizeof(char*) * (listlength + 1))))
-			die("Unable to realloc %d bytes\n", sizeof(char*) * (listlength + 1));
+	while (token)
+	{
+		if (!(list = realloc(list, sizeof(char *) * (listlength + 1))))
+			die("Unable to realloc %d bytes\n", sizeof(char *) * (listlength + 1));
 		if (!(list[listlength] = strdup(token)))
 			die("Unable to strdup %d bytes\n", strlen(token) + 1);
 		token = strtok(NULL, delim);
@@ -93,8 +95,10 @@ tokenize(char *source, const char *delim, int *llen) {
 }
 
 static int
-arrayhas(char **list, int length, char *item) {
-	for (int i = 0; i < length; i++) {
+arrayhas(char **list, int length, char *item)
+{
+	for (int i = 0; i < length; i++)
+	{
 		int len1 = strlen(list[i]);
 		int len2 = strlen(item);
 		if (fstrncmp(list[i], item, len1 > len2 ? len2 : len1) == 0)
@@ -400,23 +404,21 @@ match(void)
 		else
 			appenditem(item, &lsubstr, &substrend);
 	}
-<<<<<<< HEAD
+	if (lhpprefix)
+	{
+		if (matches)
+		{
+			matchend->right = lhpprefix;
+			lhpprefix->left = matchend;
+		}
+		else
+			matches = lhpprefix;
+		matchend = hpprefixend;
+	}
 	if (lprefix)
 	{
 		if (matches)
 		{
-=======
-	if (lhpprefix) {
-		if (matches) {
-			matchend->right = lhpprefix;
-			lhpprefix->left = matchend;
-		} else
-			matches = lhpprefix;
-		matchend = hpprefixend;
-	}
-	if (lprefix) {
-		if (matches) {
->>>>>>> Adds high-priority items.
 			matchend->right = lprefix;
 			lprefix->left = matchend;
 		}
@@ -1100,16 +1102,10 @@ setup(void)
 static void
 usage(void)
 {
-<<<<<<< HEAD
-	fputs("usage: dmenu [-bfiv] [-l lines] [-h height] [-p prompt] [-fn font] [-m monitor]\n"
-		  "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n"
-		  "             [-H histfile]",
-		  stderr);
-=======
 	fputs("usage: dmenu [-bfiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
-	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n"
-		  "             [-hb color] [-hf color] [-hp items]\n", stderr);
->>>>>>> Adds high-priority items.
+		  "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n"
+		  "             [-hb color] [-hf color] [-hp items]\n",
+		  stderr);
 	exit(1);
 }
 
@@ -1162,15 +1158,11 @@ int main(int argc, char *argv[])
 			colors[SchemeSel][ColBg] = argv[++i];
 		else if (!strcmp(argv[i], "-sf")) /* selected foreground color */
 			colors[SchemeSel][ColFg] = argv[++i];
-<<<<<<< HEAD
-		else if (!strcmp(argv[i], "-w")) /* embedding window id */
-=======
-		else if (!strcmp(argv[i], "-hb"))  /* high priority background color */
+		else if (!strcmp(argv[i], "-hb")) /* high priority background color */
 			colors[SchemeHp][ColBg] = argv[++i];
 		else if (!strcmp(argv[i], "-hf")) /* low priority background color */
 			colors[SchemeHp][ColFg] = argv[++i];
-		else if (!strcmp(argv[i], "-w"))   /* embedding window id */
->>>>>>> Adds high-priority items.
+		else if (!strcmp(argv[i], "-w")) /* embedding window id */
 			embed = argv[++i];
 		else if (!strcmp(argv[i], "-hp"))
 			hpitems = tokenize(argv[++i], ",", &hplength);
